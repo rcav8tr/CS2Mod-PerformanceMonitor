@@ -1,2 +1,2 @@
-﻿- Initial release.
+﻿- Update Only Published Configuration.
  
