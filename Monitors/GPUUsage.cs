@@ -149,7 +149,7 @@ namespace PerformanceMonitor
             }
             catch(DllNotFoundException)
             {
-                LogUtil.Warn("NVML DLL not found, probably because GPU is not NVidia.");
+                LogUtil.Warn("NVML DLL not found during initialization, probably because GPU is not NVidia.");
                 return false;
             }
             catch(Exception ex)
@@ -166,9 +166,17 @@ namespace PerformanceMonitor
         {
             try
             {
-                // Shut down NVML.  Ignore any error in the return value.
-                NvmlReturn ret = NvmlShutdown();
-                _initialized = false;
+                // Shutdown only if initialized.
+                if (_initialized)
+                {
+                    // Shut down NVML.  Ignore any error in the return value.
+                    NvmlReturn ret = NvmlShutdown();
+                    _initialized = false;
+                }
+            }
+            catch(DllNotFoundException)
+            {
+                LogUtil.Warn("NVML DLL not found during shutdown, probably because GPU is not NVidia.");
             }
             catch(Exception ex)
             {

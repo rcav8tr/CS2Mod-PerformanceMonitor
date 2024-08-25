@@ -10,6 +10,6 @@ namespace PerformanceMonitor
     public class ModAssemblyInfo
     {
         public const string Name        = "PerformanceMonitor";
-        public const string Version     = "1.0.1";
+        public const string Version     = "1.0.2";
     }
 }

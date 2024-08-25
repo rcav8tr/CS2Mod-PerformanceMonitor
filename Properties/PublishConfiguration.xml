@@ -102,7 +102,7 @@ This mod can be safely disabled or unsubscribed at any time.
     <ForumLink Value="https://forum.paradoxplaza.com/forum/threads/performance-monitor.1700151" />
 
     <!-- Version of the mod.  Copied from assembly Version. -->
-    <ModVersion Value="1.0.1" />
+    <ModVersion Value="1.0.2" />
 
     <!-- Recommended version of the base game to use the mod. -->
     <GameVersion Value="1.*" />
@@ -112,7 +112,7 @@ This mod can be safely disabled or unsubscribed at any time.
 
     <!-- Change log.  Copied from ChangeLog.md file.  Supports minimal markdown subset. -->
     <ChangeLog>
-- Update Only Published Configuration.
+- Fix error on shutdown for non-NVidia graphics cards.
 </ChangeLog>
 
     <!-- External links. Supported types are discord, github, youtube, twitch, x, paypal, patreon.  Can be set multiple times. -->
