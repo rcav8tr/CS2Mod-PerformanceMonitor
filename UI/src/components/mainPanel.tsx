@@ -51,7 +51,7 @@ export const MainPanel = () =>
 
         // Set panel width to automatically scale according to font size.
         // Panel height automatically adjusts itself according to font size and content.
-        width: "calc(" + panelWidth + "rem * var(--fontScale))"
+        width: "calc(" + panelWidth + "rem + " + (panelWidth * 1.7) + "rem * (var(--fontScale) - 1))"
     }
 
     // Header style.

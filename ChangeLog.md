@@ -1,2 +1,2 @@
-﻿- Code cleanup.
+﻿- Better handling of text scaling changes.
  
