@@ -87,7 +87,7 @@ namespace PerformanceMonitor
         {
             try
             {
-                LogUtil.Info($"{nameof(Translation)}.{nameof(Initialize)}");
+                Mod.log.Info($"{nameof(Translation)}.{nameof(Initialize)}");
 
                 // Translation keys are the constant names from UITranslationKey.
                 FieldInfo[] fields = typeof(UITranslationKey).GetFields();
@@ -105,7 +105,7 @@ namespace PerformanceMonitor
                 string translationFile = $"{ModAssemblyInfo.Name}.Localization.Translation.csv";
                 if (!Assembly.GetExecutingAssembly().GetManifestResourceNames().Contains(translationFile))
                 {
-                    LogUtil.Error($"Translation file [{translationFile}] does not exist in the assembly.");
+                    Mod.log.Error($"Translation file [{translationFile}] does not exist in the assembly.");
                     return;
                 }
 
@@ -122,7 +122,7 @@ namespace PerformanceMonitor
                 // First line cannot be blank or a comment.
                 if (lines[0].Trim().Length == 0 || lines[0].StartsWith("#"))
                 {
-                    LogUtil.Error("Translation file first line is blank or comment. Expecting language codes on the first line.");
+                    Mod.log.Error("Translation file first line is blank or comment. Expecting language codes on the first line.");
                     return;
                 }
 
@@ -159,7 +159,7 @@ namespace PerformanceMonitor
                         // Check that first language code in the file is the default language code.
                         if (count == 0 && languageCode != DefaultLanguageCode)
                         {
-                            LogUtil.Warn($"Translation file must have default language code [{DefaultLanguageCode}] defined first.");
+                            Mod.log.Warn($"Translation file must have default language code [{DefaultLanguageCode}] defined first.");
                         }
 
                         // Get next language code.
@@ -173,7 +173,7 @@ namespace PerformanceMonitor
                 {
                     if (languageCodeCount[languageCode] != 1)
                     {
-                        LogUtil.Warn($"Translation file defines language code [{languageCode}] {languageCodeCount[languageCode]} times.  Expecting 1 time.");
+                        Mod.log.Warn($"Translation file defines language code [{languageCode}] {languageCodeCount[languageCode]} times.  Expecting 1 time.");
                     }
                 }
 
@@ -203,7 +203,7 @@ namespace PerformanceMonitor
                                 // Check key from file.
                                 if (!_translationKeys.Contains(keyFromFile))
                                 {
-                                    LogUtil.Warn($"Translation file contains translation key [{keyFromFile}], which does not have a corresponding key in the program.");
+                                    Mod.log.Warn($"Translation file contains translation key [{keyFromFile}], which does not have a corresponding key in the program.");
                                 }
                                 else
                                 {
@@ -221,7 +221,7 @@ namespace PerformanceMonitor
                                             if (languageCode == DefaultLanguageCode)
                                             {
                                                 // For default language, use the key as the translated text.
-                                                LogUtil.Warn($"Translation for key [{keyFromFile}] must be defined for default language code [{DefaultLanguageCode}].");
+                                                Mod.log.Warn($"Translation for key [{keyFromFile}] must be defined for default language code [{DefaultLanguageCode}].");
                                                 translatedText = keyFromFile;
                                             }
                                             else
@@ -237,7 +237,7 @@ namespace PerformanceMonitor
                                             string atAtKey = translatedText.Substring(2);
                                             if (string.IsNullOrEmpty(atAtKey) || !_languages[languageCode].Keys.Contains(atAtKey))
                                             {
-                                                LogUtil.Warn($"Translation for key [{keyFromFile}] for language [{languageCode}] has invalid @@ reference to key [{atAtKey}].");
+                                                Mod.log.Warn($"Translation for key [{keyFromFile}] for language [{languageCode}] has invalid @@ reference to key [{atAtKey}].");
                                                 // Leave the invalid @@ reference in the translated text.
                                             }
                                             else
@@ -261,13 +261,13 @@ namespace PerformanceMonitor
                 {
                     if (translationKeyCount[translationkey] != 1)
                     {
-                        LogUtil.Warn($"Translation file defines translation key [{translationkey}] {translationKeyCount[translationkey]} times.  Expecting 1 time.");
+                        Mod.log.Warn($"Translation file defines translation key [{translationkey}] {translationKeyCount[translationkey]} times.  Expecting 1 time.");
                     }
                 }
             }
             catch(Exception ex)
             {
-                LogUtil.Exception(ex);
+                Mod.log.Error(ex);
             }
         }
 

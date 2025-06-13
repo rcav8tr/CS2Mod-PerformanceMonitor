@@ -87,12 +87,12 @@ namespace PerformanceMonitor
         {
             try
             {
-                LogUtil.Info($"{nameof(GPUUsage)}.{nameof(Initialize)}");
+                Mod.log.Info($"{nameof(GPUUsage)}.{nameof(Initialize)}");
 
                 // Check if already initialized.
                 if (_initialized)
                 {
-                    LogUtil.Warn("Attempt to initialize GPU usage more than onece.");
+                    Mod.log.Warn("Attempt to initialize GPU usage more than onece.");
                     return true;
                 }
 
@@ -100,7 +100,7 @@ namespace PerformanceMonitor
                 NvmlReturn ret = NvmlInitV2();
                 if (ret != NvmlReturn.NVML_SUCCESS)
                 {
-                    LogUtil.Warn($"NVML error initializing: [{ret}]");
+                    Mod.log.Warn($"NVML error initializing: [{ret}]");
                     return false;
                 }
 
@@ -108,14 +108,14 @@ namespace PerformanceMonitor
                 ret = NvmlDeviceGetCount_v2(out uint deviceCount);
                 if (ret != NvmlReturn.NVML_SUCCESS)
                 {
-                    LogUtil.Warn($"NVML error getting device count: [{ret}]");
+                    Mod.log.Warn($"NVML error getting device count: [{ret}]");
                     return false;
                 }
 
                 // Check number of devices.
                 if (deviceCount == 0)
                 {
-                    LogUtil.Warn($"NVML error no devices found.");
+                    Mod.log.Warn($"NVML error no devices found.");
                     return false;
                 }
 
@@ -126,7 +126,7 @@ namespace PerformanceMonitor
                     ret = NvmlDeviceGetHandleByIndex(i, out _devices[i]);
                     if (ret != NvmlReturn.NVML_SUCCESS)
                     {
-                        LogUtil.Warn($"NVML error getting handle for device #{i}: [{ret}]");
+                        Mod.log.Warn($"NVML error getting handle for device #{i}: [{ret}]");
                         return false;
                     }
                 }
@@ -137,24 +137,24 @@ namespace PerformanceMonitor
                     ret = NvmlDeviceGetUtilizationRates(_devices[i], out NvmlUtilization utilization);
                     if (ret != NvmlReturn.NVML_SUCCESS)
                     {
-                        LogUtil.Warn($"NVML error getting utilization from device #{i}: [{ret}]");
+                        Mod.log.Warn($"NVML error getting utilization from device #{i}: [{ret}]");
                         return false;
                     }
                 }
                 
                 // GPU usage is valid.
                 _initialized = true;
-                LogUtil.Info("GPUUsage successfully initialized.");
+                Mod.log.Info("GPUUsage successfully initialized.");
                 return true;
             }
             catch(DllNotFoundException)
             {
-                LogUtil.Warn("NVML DLL not found during initialization, probably because GPU is not NVidia.");
+                Mod.log.Warn("NVML DLL not found during initialization, probably because GPU is not NVidia.");
                 return false;
             }
             catch(Exception ex)
             {
-                LogUtil.Exception(ex);
+                Mod.log.Error(ex);
                 return false;
             }
         }
@@ -176,11 +176,11 @@ namespace PerformanceMonitor
             }
             catch(DllNotFoundException)
             {
-                LogUtil.Warn("NVML DLL not found during shutdown, probably because GPU is not NVidia.");
+                Mod.log.Warn("NVML DLL not found during shutdown, probably because GPU is not NVidia.");
             }
             catch(Exception ex)
             {
-                LogUtil.Exception(ex);
+                Mod.log.Error(ex);
             }
         }
 
@@ -214,7 +214,7 @@ namespace PerformanceMonitor
             }
             catch(Exception ex)
             {
-                LogUtil.Exception(ex);
+                Mod.log.Error(ex);
                 return 0;
             }
         }

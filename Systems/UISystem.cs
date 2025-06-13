@@ -81,7 +81,7 @@ namespace PerformanceMonitor
 
             try
             {
-                LogUtil.Info($"{nameof(UISystem)}.{nameof(OnCreate)}");
+                Mod.log.Info($"{nameof(UISystem)}.{nameof(OnCreate)}");
 
                 // Get one-time game systems and managers.
                 // Getting the systems and managers once here avoids the need to get them every time they are needed.
@@ -122,7 +122,7 @@ namespace PerformanceMonitor
             }
             catch(Exception ex)
             {
-                LogUtil.Exception(ex);
+                Mod.log.Error(ex);
             }
         }
 
@@ -175,7 +175,7 @@ namespace PerformanceMonitor
         {
             try
             {
-                LogUtil.Info($"{nameof(UISystem)}.{nameof(Initialize)}");
+                Mod.log.Info($"{nameof(UISystem)}.{nameof(Initialize)}");
 
                 // Initialize current culture.
                 _currentCulture = GetCurrentCulture();
@@ -228,7 +228,7 @@ namespace PerformanceMonitor
             }
             catch(Exception ex)
             {
-                LogUtil.Exception(ex);
+                Mod.log.Error(ex);
             }
         }
 
@@ -239,7 +239,7 @@ namespace PerformanceMonitor
         {
             try
             {
-                LogUtil.Info($"{nameof(UISystem)}.{nameof(Deinitialize)}");
+                Mod.log.Info($"{nameof(UISystem)}.{nameof(Deinitialize)}");
 
                 // Not in a game.  Set this first to stop OnUpdate from running while everything is being cleaned up.
                 _inGame = false;
@@ -257,7 +257,7 @@ namespace PerformanceMonitor
             }
             catch(Exception ex)
             {
-                LogUtil.Exception(ex);
+                Mod.log.Error(ex);
             }
         }
 
@@ -447,7 +447,7 @@ namespace PerformanceMonitor
             }
             catch (Exception ex) 
             {
-                LogUtil.Exception(ex);
+                Mod.log.Error(ex);
             }
         }
 

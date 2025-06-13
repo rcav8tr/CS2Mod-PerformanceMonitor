@@ -13,8 +13,6 @@ namespace PerformanceMonitor
         /// </summary>
         public Locale(string localeID)
         {
-            LogUtil.Info($"{nameof(Locale)}.{nameof(Locale)} localeID=[{localeID}]");
-
             // Initialize this locale by getting the translated text for every translation key.
             Translation translationInstance = Translation.instance;
             foreach (FieldInfo field in typeof(UITranslationKey).GetFields())

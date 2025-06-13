@@ -45,7 +45,7 @@ namespace PerformanceMonitor
             }
             catch(Exception ex)
             {
-                LogUtil.Exception(ex);
+                Mod.log.Error(ex);
                 return 0;
             }
         }

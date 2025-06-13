@@ -41,7 +41,7 @@ namespace PerformanceMonitor
         {
             try
             {
-                LogUtil.Info($"{nameof(CPUUsage)}.{nameof(Initialize)}");
+                Mod.log.Info($"{nameof(CPUUsage)}.{nameof(Initialize)}");
 
                 // Initialize previous CPU usages.
                 _previousCPUUsageCount = 0;
@@ -53,7 +53,7 @@ namespace PerformanceMonitor
             }
             catch(Exception ex)
             {
-                LogUtil.Exception(ex);
+                Mod.log.Error(ex);
                 return false;
             }
         }
@@ -111,7 +111,7 @@ namespace PerformanceMonitor
             }
             catch(Exception ex)
             {
-                LogUtil.Exception(ex);
+                Mod.log.Error(ex);
                 return 0;
             }
         }

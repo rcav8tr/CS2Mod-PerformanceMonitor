@@ -1,4 +1,5 @@
 ﻿using Colossal.IO.AssetDatabase;
+using Colossal.Logging;
 using Game;
 using Game.Modding;
 using Game.SceneFlow;
@@ -11,6 +12,12 @@ namespace PerformanceMonitor
     /// </summary>
     public class Mod : IMod
     {
+        // Create a new log just for this mod.
+        // This mod will have its own log file in the game's Logs folder.
+        public static readonly ILog log = LogManager.GetLogger(ModAssemblyInfo.Name)
+            .SetShowsErrorsInUI(true)                       // Show message in UI for severity level Error and above.
+            .SetShowsStackTraceAboveLevels(Level.Error);    // Include stack trace for severity level Error and above.
+
         // The one and only global settings for this mod.
         public static ModSettings ModSettings;
 
@@ -24,7 +31,7 @@ namespace PerformanceMonitor
         /// </summary>
         public void OnLoad(UpdateSystem updateSystem)
         {
-            LogUtil.Info($"{nameof(Mod)}.{nameof(OnLoad)}");
+            log.Info($"{nameof(Mod)}.{nameof(OnLoad)}");
 
             try
             {
@@ -65,10 +72,10 @@ namespace PerformanceMonitor
             }
             catch(Exception ex)
             {
-                LogUtil.Exception(ex);
+                log.Error(ex);
             }
 
-            LogUtil.Info($"{nameof(Mod)}.{nameof(OnLoad)} complete.");
+            log.Info($"{nameof(Mod)}.{nameof(OnLoad)} complete.");
         }
 
         /// <summary>
@@ -76,7 +83,7 @@ namespace PerformanceMonitor
         /// </summary>
         public void OnDispose()
         {
-            LogUtil.Info($"{nameof(Mod)}.{nameof(OnDispose)}");
+            log.Info($"{nameof(Mod)}.{nameof(OnDispose)}");
 
             // Unregister mod settings.
             ModSettings?.UnregisterInOptionsUI();
