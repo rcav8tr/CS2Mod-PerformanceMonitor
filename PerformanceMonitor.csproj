@@ -18,7 +18,7 @@
 		<PublishConfigurationPath>Properties\PublishConfiguration.xml</PublishConfigurationPath>
 		<Title>Performance Monitor</Title>
         <AssemblyTitle>$(Title)</AssemblyTitle>
-		<Version>1.0.5</Version>
+		<Version>1.0.6</Version>
 		<Description>Monitor your computer's performance data.</Description>
 		<Copyright>Copyright © 2024-2025</Copyright>
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>

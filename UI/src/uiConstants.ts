@@ -12,9 +12,7 @@ export class UIEventName
     public static MainPanelMoved: string = "mainPanelMoved";
 
     // Events from C# to UI for main panel.
-    public static MainPanelVisible: string = "mainPanelVisible";
-    public static MainPanelPositionX: string = "mainPanelPositionX";
-    public static MainPanelPositionY: string = "mainPanelPositionY";
+    public static MainPanelUISettings: string = "mainPanelUISettings";
 
     // Events from C# to UI for data values.
     public static CurrentGameMinute: string = "currentGameMinute";
@@ -35,6 +33,7 @@ export class UITranslationKey
     // Mod title and description.
     public static Title: string = "PerformanceMonitor.Title";
     public static Description: string = "PerformanceMonitor.Description";
+    public static Shortcut: string = "PerformanceMonitor.Shortcut";
 
     // Settings.
     public static SettingTitle: string = "Options.SECTION[PerformanceMonitor.PerformanceMonitor.Mod]";

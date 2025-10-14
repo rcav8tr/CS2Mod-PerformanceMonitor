@@ -5,7 +5,6 @@ export class UIElementID
     private static elementIDPrefix: string = "rcav8tr-performance-monitor-";
 
     // Define an element ID for each element that is top level or that needs to be found by ID.
-    public static MainButton:     string = UIElementID.elementIDPrefix + "main-button";
     public static MainPanel:      string = UIElementID.elementIDPrefix + "main-panel";
     public static MainPanelClose: string = UIElementID.elementIDPrefix + "main-panel-close";
 }

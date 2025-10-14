@@ -51,9 +51,7 @@ namespace PerformanceMonitor
         private int                     _fpsTimingFrameCount;               // Frame count.
 
         // C# to UI bindings for main panel.
-        private ValueBinding<bool>      _bindingMainPanelVisible;
-        private ValueBinding<int>       _bindingMainPanelPositionX;
-        private ValueBinding<int>       _bindingMainPanelPositionY;
+        private RawValueBinding         _bindingMainPanelUISettings;
 
         // C# to UI bindings for data values.
         private ValueBinding<string>    _bindingCurrentGameMinute;
@@ -63,7 +61,11 @@ namespace PerformanceMonitor
         private ValueBinding<string>    _bindingCPUUsage;
         private ValueBinding<string>    _bindingMemoryUsage;
 
-        
+        // C# to UI bindings for showing data values.
+        private ValueBinding<bool>      _bindingShowGPUUsage;
+        private ValueBinding<bool>      _bindingShowCPUUsage;
+        private ValueBinding<bool>      _bindingShowMemoryUsage;
+            
         /// <summary>
         /// Mod is valid only in game, not editor.
         /// </summary>
@@ -102,23 +104,20 @@ namespace PerformanceMonitor
                 AddBinding(new TriggerBinding<int, int>(UIEventName.GroupName, UIEventName.MainPanelMoved,    MainPanelMoved   ));
 
                 // Add bindings for C# to UI for main panel.
-                AddBinding(_bindingMainPanelVisible   = new ValueBinding<bool  >(UIEventName.GroupName, UIEventName.MainPanelVisible,   Mod.ModSettings.MainPanelVisible  ));
-                AddBinding(_bindingMainPanelPositionX = new ValueBinding<int   >(UIEventName.GroupName, UIEventName.MainPanelPositionX, Mod.ModSettings.MainPanelPositionX));
-                AddBinding(_bindingMainPanelPositionY = new ValueBinding<int   >(UIEventName.GroupName, UIEventName.MainPanelPositionY, Mod.ModSettings.MainPanelPositionY));
+                AddBinding(_bindingMainPanelUISettings  = new RawValueBinding     (UIEventName.GroupName, UIEventName.MainPanelUISettings,  WriteMainPanelUISettings));
 
                 // Add bindings for C# to UI for data values.
-                AddBinding(_bindingCurrentGameMinute  = new ValueBinding<string>(UIEventName.GroupName, UIEventName.CurrentGameMinute,  ""));
-                AddBinding(_bindingPreviousGameMinute = new ValueBinding<string>(UIEventName.GroupName, UIEventName.PreviousGameMinute, ""));
-                AddBinding(_bindingFrameRate          = new ValueBinding<string>(UIEventName.GroupName, UIEventName.FrameRate,          ""));
-                AddBinding(_bindingGPUUsage           = new ValueBinding<string>(UIEventName.GroupName, UIEventName.GPUUsage,           ""));
-                AddBinding(_bindingCPUUsage           = new ValueBinding<string>(UIEventName.GroupName, UIEventName.CPUUsage,           ""));
-                AddBinding(_bindingMemoryUsage        = new ValueBinding<string>(UIEventName.GroupName, UIEventName.MemoryUsage,        ""));
+                AddBinding(_bindingCurrentGameMinute    = new ValueBinding<string>(UIEventName.GroupName, UIEventName.CurrentGameMinute,    ""));
+                AddBinding(_bindingPreviousGameMinute   = new ValueBinding<string>(UIEventName.GroupName, UIEventName.PreviousGameMinute,   ""));
+                AddBinding(_bindingFrameRate            = new ValueBinding<string>(UIEventName.GroupName, UIEventName.FrameRate,            ""));
+                AddBinding(_bindingGPUUsage             = new ValueBinding<string>(UIEventName.GroupName, UIEventName.GPUUsage,             ""));
+                AddBinding(_bindingCPUUsage             = new ValueBinding<string>(UIEventName.GroupName, UIEventName.CPUUsage,             ""));
+                AddBinding(_bindingMemoryUsage          = new ValueBinding<string>(UIEventName.GroupName, UIEventName.MemoryUsage,          ""));
 
                 // Add bindings for C# to UI for showing data values.
-                // This is the only time these binding values get set, so no need to save the bindings.
-                AddBinding(new ValueBinding<bool>(UIEventName.GroupName, UIEventName.ShowGPUUsage,    Mod.ShowGPUUsage   ));
-                AddBinding(new ValueBinding<bool>(UIEventName.GroupName, UIEventName.ShowCPUUsage,    Mod.ShowCPUUsage   ));
-                AddBinding(new ValueBinding<bool>(UIEventName.GroupName, UIEventName.ShowMemoryUsage, Mod.ShowMemoryUsage));
+                AddBinding(_bindingShowGPUUsage         = new ValueBinding<bool  >(UIEventName.GroupName, UIEventName.ShowGPUUsage,         Mod.ShowGPUUsage   ));
+                AddBinding(_bindingShowCPUUsage         = new ValueBinding<bool  >(UIEventName.GroupName, UIEventName.ShowCPUUsage,         Mod.ShowCPUUsage   ));
+                AddBinding(_bindingShowMemoryUsage      = new ValueBinding<bool  >(UIEventName.GroupName, UIEventName.ShowMemoryUsage,      Mod.ShowMemoryUsage));
             }
             catch(Exception ex)
             {
@@ -211,6 +210,12 @@ namespace PerformanceMonitor
                 _bindingGPUUsage          .Update("");
                 _bindingCPUUsage          .Update("");
                 _bindingMemoryUsage       .Update("");
+
+                // Update which data values should be shown.
+                // These Mod values have not been initialized yet when this system's OnCreate runs.
+                _bindingShowGPUUsage   .Update(Mod.ShowGPUUsage   );
+                _bindingShowCPUUsage   .Update(Mod.ShowCPUUsage   );
+                _bindingShowMemoryUsage.Update(Mod.ShowMemoryUsage);
 
                 // Enable activation key.
                 ProxyAction activationKeyAction = Mod.ModSettings.GetAction(ModSettings.ActivationKeyActionName);
@@ -586,15 +591,15 @@ namespace PerformanceMonitor
         /// </summary>
         private void MainButtonClicked()
         {
-            // Toggle and save main panel visibility.
-            bool newVisible = !_bindingMainPanelVisible.value;
-            _bindingMainPanelVisible.Update(newVisible);
-            Mod.ModSettings.MainPanelVisible = newVisible;
-            Mod.ModSettings.ApplyAndSave();
+            // Toggle main panel visibility.
+            Mod.ModSettings.MainPanelVisible = !Mod.ModSettings.MainPanelVisible;
+
+            // Send new visbility back to UI.
+            UpdateMainPanelUISettings();
 
             // When panel is newly visible, immediately update current and previous sim timings.
             // Other data values will update on their own within one second.
-            if (newVisible)
+            if (Mod.ModSettings.MainPanelVisible)
             {
                 _bindingCurrentGameMinute .Update(FormatSimTimingCurrent());
                 _bindingPreviousGameMinute.Update(FormatSimTimingPrevious());
@@ -609,19 +614,34 @@ namespace PerformanceMonitor
             // Save main panel position.
             Mod.ModSettings.MainPanelPositionX = positionX;
             Mod.ModSettings.MainPanelPositionY = positionY;
-            Mod.ModSettings.ApplyAndSave();
 
             // Send position back to UI.
-            SetMainPanelPosition(positionX, positionY);
+            UpdateMainPanelUISettings();
         }
 
         /// <summary>
-        /// Set main panel position on UI.
+        /// Update main panel UI settings.
         /// </summary>
-        public void SetMainPanelPosition(int positionX, int positionY)
+        public void UpdateMainPanelUISettings()
         {
-            _bindingMainPanelPositionX.Update(positionX);
-            _bindingMainPanelPositionY.Update(positionY);
+            _bindingMainPanelUISettings.Update();
+        }
+        
+        /// <summary>
+        /// Write main panel settings that affect the UI to the UI.
+        /// </summary>
+        private void WriteMainPanelUISettings(IJsonWriter writer)
+        {
+			writer.TypeBegin(ModAssemblyInfo.Name + ".MainPanelUISettings");
+			writer.PropertyName("activationKey");
+            Mod.ModSettings.ActivationKeyBinding.Write(writer);
+			writer.PropertyName("panelVisible");
+			writer.Write(Mod.ModSettings.MainPanelVisible);
+			writer.PropertyName("panelPositionX");
+			writer.Write(Mod.ModSettings.MainPanelPositionX);
+			writer.PropertyName("panelPositionY");
+			writer.Write(Mod.ModSettings.MainPanelPositionY);
+			writer.TypeEnd();
         }
     }
 }

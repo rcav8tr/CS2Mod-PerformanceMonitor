@@ -1,10 +1,18 @@
 ﻿import { bindValue } from "cs2/api";
-import { UIEventName, ModSettingsDefaults } from "./types/uiConstants";
 
-// Main panel visibility and position.
-export const bindingMainPanelVisible   = bindValue<boolean>(UIEventName.GroupName, UIEventName.MainPanelVisible,   ModSettingsDefaults.MainPanelVisible);
-export const bindingMainPanelPositionX = bindValue<number >(UIEventName.GroupName, UIEventName.MainPanelPositionX, ModSettingsDefaults.MainPanelPositionX);
-export const bindingMainPanelPositionY = bindValue<number >(UIEventName.GroupName, UIEventName.MainPanelPositionY, ModSettingsDefaults.MainPanelPositionY);
+import { UIEventName } from "uiConstants";
+
+// Define main panel UI settings.
+export type MainPanelUISettings =
+{
+    activationKey:  any;
+    panelVisible:   boolean;
+    panelPositionX: number;
+    panelPositionY: number;
+}
+
+// Main panel UI settings.
+export const bindingMainPanelUISettings = bindValue<MainPanelUISettings>(UIEventName.GroupName, UIEventName.MainPanelUISettings);
 
 // Data row values.
 export const bindingCurrentGameMinute  = bindValue<string >(UIEventName.GroupName, UIEventName.CurrentGameMinute,  "");
@@ -19,5 +27,6 @@ export const bindingShowGPUUsage       = bindValue<boolean>(UIEventName.GroupNam
 export const bindingShowCPUUsage       = bindValue<boolean>(UIEventName.GroupName, UIEventName.ShowCPUUsage,       false);
 export const bindingShowMemoryUsage    = bindValue<boolean>(UIEventName.GroupName, UIEventName.ShowMemoryUsage,    false);
 
-// Localization
+// Game bindings.
 export const bindingActiveLocale       = bindValue<string >("app",                 "activeLocale",                 "en-US");
+export const bindingTextScale          = bindValue<number >("options",             "textScale",                    1);

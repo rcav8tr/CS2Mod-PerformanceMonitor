@@ -1,0 +1,19 @@
+﻿.mainPanel {
+    position:           absolute;
+    opacity:            1;
+    margin:             0px;
+}
+
+.mainPanelHeader {
+    width:              100%;
+    display:            flex;
+    flex-direction:     row;
+}
+
+.mainPanelHeaderTitle {
+    margin-top:         7rem;
+}
+
+.mainPanelHeaderClose {
+    margin-top:         5rem;
+}

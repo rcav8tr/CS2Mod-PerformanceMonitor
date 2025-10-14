@@ -2,6 +2,7 @@
 using Game.Input;
 using Game.Modding;
 using Game.Settings;
+using Unity.Entities;
 
 namespace PerformanceMonitor
 {
@@ -24,10 +25,17 @@ namespace PerformanceMonitor
         // Whether or not settings are loaded.
         private bool _loaded = false;
 
+        // Other systems.
+        private readonly UISystem _uiSystem;
+
         public ModSettings(IMod mod) : base(mod)
         {
             Mod.log.Info($"{nameof(ModSettings)}.{nameof(ModSettings)}");
 
+            // Get other systems.
+            _uiSystem = World.DefaultGameObjectInjectionWorld.GetOrCreateSystemManaged<UISystem>();
+
+            // Set defaults.
             SetDefaults();
         }
         
@@ -51,39 +59,24 @@ namespace PerformanceMonitor
         }
 
         // Main panel visibility.
-        // When this hidden setting changes, need to explicitly save settings.
-        private bool _mainPanelVisible = ModSettingsDefaults.MainPanelVisible;
         [SettingsUIHidden]
-        public bool MainPanelVisible
-        {
-            get { return _mainPanelVisible; }
-            set { _mainPanelVisible = value; SaveSettings(); }
-        }
+        public bool MainPanelVisible { get; set; }
 
-        // Main panel X position (in pixels).
-        // When this hidden setting changes, need to explicitly save settings.
-        private int _mainPanelPositionX = ModSettingsDefaults.MainPanelPositionX;
+        // Main panel position (in pixels).
         [SettingsUIHidden]
-        public int MainPanelPositionX
-        {
-            get { return _mainPanelPositionX; }
-            set { _mainPanelPositionX = value; SaveSettings(); }
-        }
-
-        // Main panel Y position (in pixels).
-        // When this hidden setting changes, need to explicitly save settings.
-        private int _mainPanelPositionY = ModSettingsDefaults.MainPanelPositionX;
+        public int MainPanelPositionX { get; set; }
         [SettingsUIHidden]
-        public int MainPanelPositionY
-        {
-            get { return _mainPanelPositionY; }
-            set { _mainPanelPositionY = value; SaveSettings(); }
-        }
+        public int MainPanelPositionY { get; set; }
 
         // Activation key binding.  Default is Ctrl+Shift+P.
+        private ProxyBinding _activationKeyBinding;
         [SettingsUIKeyboardBinding(BindingKeyboard.P, ActivationKeyActionName, ctrl: true, shift: true)]
         [SettingsUISection(GroupGeneral)]
-        public ProxyBinding ActivationKeyBinding { get; set; }
+        public ProxyBinding ActivationKeyBinding
+        {
+            get { return _activationKeyBinding; }
+            set { _activationKeyBinding = value; UpdateMainPanelUISettingsIfLoaded(); }
+        }
 
         // Button to reset main panel position.
         [SettingsUIButton()]
@@ -96,9 +89,8 @@ namespace PerformanceMonitor
                 MainPanelPositionX = ModSettingsDefaults.MainPanelPositionX;
                 MainPanelPositionY = ModSettingsDefaults.MainPanelPositionY;
 
-                // Move the main panel to the default position.
-                Unity.Entities.World.DefaultGameObjectInjectionWorld.GetExistingSystemManaged<UISystem>().
-                    SetMainPanelPosition(ModSettingsDefaults.MainPanelPositionX, ModSettingsDefaults.MainPanelPositionY);
+                // Update main panel UI settings.
+                UpdateMainPanelUISettingsIfLoaded();
             }
         }
 
@@ -107,16 +99,15 @@ namespace PerformanceMonitor
         public string ModVersion { get { return ModAssemblyInfo.Version; } }
 
         /// <summary>
-        /// Save all settings.
+        /// Update main panel settings in UI if settings are loaded.
         /// </summary>
-        private async void SaveSettings()
+        private void UpdateMainPanelUISettingsIfLoaded()
         {
             // Settings must be loaded.
-            // This prevents saving settings while defaults are being set and while settings are loading.
+            // This prevents updating UI while initial defaults are being set and while settings are loading.
             if (_loaded)
             {
-                // This saves settings for the game and all mods.
-                await AssetDatabase.global.SaveSettings();
+                _uiSystem.UpdateMainPanelUISettings();
             }
         }
     }

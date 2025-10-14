@@ -2,7 +2,6 @@
 using Colossal.Logging;
 using Game;
 using Game.Modding;
-using Game.SceneFlow;
 using System;
 
 namespace PerformanceMonitor
@@ -31,7 +30,7 @@ namespace PerformanceMonitor
         /// </summary>
         public void OnLoad(UpdateSystem updateSystem)
         {
-            log.Info($"{nameof(Mod)}.{nameof(OnLoad)}");
+            log.Info($"{nameof(Mod)}.{nameof(OnLoad)} Version {ModAssemblyInfo.Version}");
 
             try
             {
@@ -42,11 +41,8 @@ namespace PerformanceMonitor
                 AssetDatabase.global.LoadSettings(nameof(PerformanceMonitor), ModSettings, new ModSettings(this));
                 ModSettings.Loaded();
 
-                // Set up all locales.
-                foreach (string languageCode in Translation.instance.LanguageCodes)
-                {
-                    GameManager.instance.localizationManager.AddSource(languageCode, new Locale(languageCode));
-                }
+                // Initialize translations.
+                Translation.Initialize();
 
                 // Check if operating system is Windows.
                 if (IsWindows())

@@ -27,41 +27,39 @@ namespace PerformanceMonitor
         private const string EventsGroupComment = "Events group name.";
         private static readonly UIConstants _eventsGroupName = new UIConstants()
         {
-            { "GroupName",          ModAssemblyInfo.Name    },
+            { "GroupName",              ModAssemblyInfo.Name    },
         };
 
         private const string EventsUItoCSComment = "Events from UI to C#.";
         private static readonly UIConstants _eventsUItoCS = new UIConstants()
         {
-            { "MainButtonClicked",  "mainButtonClicked"     },
-            { "MainPanelMoved",     "mainPanelMoved"        },
+            { "MainButtonClicked",      "mainButtonClicked"     },
+            { "MainPanelMoved",         "mainPanelMoved"        },
         };
         
         private const string EventsCStoUIMainPanelComment = "Events from C# to UI for main panel.";
         private static readonly UIConstants _eventsCStoUIMainPanel = new UIConstants()
         {
-            { "MainPanelVisible",   "mainPanelVisible"      },
-            { "MainPanelPositionX", "mainPanelPositionX"    },
-            { "MainPanelPositionY", "mainPanelPositionY"    },
+            { "MainPanelUISettings",    "mainPanelUISettings"   },
         };
         
         private const string EventsCStoUIDataValuesComment = "Events from C# to UI for data values.";
         private static readonly UIConstants _eventsCStoUIDataValues = new UIConstants()
         {
-            { "CurrentGameMinute",  "currentGameMinute"     },
-            { "PreviousGameMinute", "previousGameMinute"    },
-            { "FrameRate",          "frameRate"             },
-            { "GPUUsage",           "gpuUsage"              },
-            { "CPUUsage",           "cpuUsage"              },
-            { "MemoryUsage",        "memoryUsage"           },
+            { "CurrentGameMinute",      "currentGameMinute"     },
+            { "PreviousGameMinute",     "previousGameMinute"    },
+            { "FrameRate",              "frameRate"             },
+            { "GPUUsage",               "gpuUsage"              },
+            { "CPUUsage",               "cpuUsage"              },
+            { "MemoryUsage",            "memoryUsage"           },
         };
         
         private const string EventsCStoUIShowValuesComment = "Events from C# to UI for whether or not to show data values.";
         private static readonly UIConstants _eventsCStoUIShowValues = new UIConstants()
         {
-            { "ShowGPUUsage",       "showGPUUsage"          },
-            { "ShowCPUUsage",       "showCPUUsage"          },
-            { "ShowMemoryUsage",    "showMemoryUsage"       },
+            { "ShowGPUUsage",           "showGPUUsage"          },
+            { "ShowCPUUsage",           "showCPUUsage"          },
+            { "ShowMemoryUsage",        "showMemoryUsage"       },
         };
 
         // Define constants for translation keys.
@@ -71,6 +69,7 @@ namespace PerformanceMonitor
         {
             "Title",
             "Description",
+            "Shortcut",
         };
         
         private const string TranslationKeySettingsComment = "Settings.";
@@ -134,7 +133,7 @@ namespace PerformanceMonitor
             // Write the UI file to the UI/src/types folder.
             // Assumes this source code file is in a folder, so first need to go up one directory.
             string contentsUI = ConstructFileContents(false);
-            string uiPath = Path.Combine(Directory.GetParent(sourceCodePath).FullName, "UI", "src", "types");
+            string uiPath = Path.Combine(Directory.GetParent(sourceCodePath).FullName, "UI", "src");
             File.WriteAllText(Path.Combine(uiPath, "uiConstants.ts"), contentsUI);
         }
 

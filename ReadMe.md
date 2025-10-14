@@ -69,3 +69,5 @@ The mod is translated into all the languages supported by the base game.
 There are no known mods with which this mod is incompatible.
 
 This mod can be safely disabled or unsubscribed at any time.
+
+To receive an invitation to the Discord server for mod discussion, go to:  [https://discord.gg/HTav7ARPs2](https://discord.gg/HTav7ARPs2)

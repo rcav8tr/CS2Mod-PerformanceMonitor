@@ -1,7 +1,8 @@
-﻿import { useValue } from "cs2/api";
-import { useLocalization } from "cs2/l10n";
-import { PanelSection, PanelSectionRow } from "cs2/ui";
-import { UITranslationKey } from "types/uiConstants";
+﻿import { useValue                       } from "cs2/api";
+import { useLocalization                } from "cs2/l10n";
+import { PanelSection, PanelSectionRow  } from "cs2/ui";
+
+import { UITranslationKey } from "uiConstants";
 import
     {
         bindingCurrentGameMinute,
@@ -13,7 +14,7 @@ import
         bindingShowGPUUsage,
         bindingShowCPUUsage,
         bindingShowMemoryUsage
-    } from "../bindings";
+    } from "bindings";
 
 export const PanelContent = () =>
 {

@@ -14,9 +14,7 @@ namespace PerformanceMonitor
         public const string MainPanelMoved = "mainPanelMoved";
 
         // Events from C# to UI for main panel.
-        public const string MainPanelVisible = "mainPanelVisible";
-        public const string MainPanelPositionX = "mainPanelPositionX";
-        public const string MainPanelPositionY = "mainPanelPositionY";
+        public const string MainPanelUISettings = "mainPanelUISettings";
 
         // Events from C# to UI for data values.
         public const string CurrentGameMinute = "currentGameMinute";
@@ -37,6 +35,7 @@ namespace PerformanceMonitor
         // Mod title and description.
         public const string Title = "PerformanceMonitor.Title";
         public const string Description = "PerformanceMonitor.Description";
+        public const string Shortcut = "PerformanceMonitor.Shortcut";
 
         // Settings.
         public const string SettingTitle = "Options.SECTION[PerformanceMonitor.PerformanceMonitor.Mod]";
