@@ -12,7 +12,7 @@ namespace PerformanceMonitor
     [FileLocation(nameof(PerformanceMonitor))]
     [SettingsUIGroupOrder(GroupGeneral, GroupAbout)]
     [SettingsUIShowGroupName(GroupGeneral, GroupAbout)]
-    [SettingsUIKeyboardAction(ActivationKeyActionName)]
+    [SettingsUIKeyboardAction(ActivationKeyActionName, modifierOptions: ModifierOptions.Allow)]
     public class ModSettings : ModSetting
     {
         // Group constants.
