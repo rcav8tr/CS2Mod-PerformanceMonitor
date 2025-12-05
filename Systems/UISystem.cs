@@ -269,7 +269,7 @@ namespace PerformanceMonitor
         /// <summary>
         /// Event callback when game saving is started or ended.
         /// </summary>
-        private void GameManager_onGameSaveLoad(string saveName, bool start, bool success)
+        private void GameManager_onGameSaveLoad(string saveName, string previewUri, bool start, bool success)
         {
             // Check for start or end of game save.
             if (start)
