@@ -107,7 +107,7 @@ To receive an invitation to the Discord server for mod discussion, go to:  [http
     <ModVersion Value="1.0.8" />
 
     <!-- Recommended version of the base game to use the mod. -->
-    <GameVersion Value="1.5.2*" />
+    <GameVersion Value="1.5.3*" />
 
     <!-- Dependency for the mod.  Can be set multiple times. -->
     <Dependency Id="" />
