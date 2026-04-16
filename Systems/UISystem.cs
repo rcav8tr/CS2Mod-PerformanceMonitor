@@ -249,21 +249,33 @@ namespace PerformanceMonitor
                 // Not in a game.  Set this first to stop OnUpdate from running while everything is being cleaned up.
                 _inGame = false;
 
-                // Stop listening for language change events.
-                _localizationManager.onActiveDictionaryChanged -= LocalizationManager_onActiveDictionaryChanged;
-
-                // Stop listening for game save events.
-                GameManager.instance.onGameSaveLoad -= GameManager_onGameSaveLoad;
-
                 // Disable activation key.
                 ProxyAction activationKeyAction = Mod.ModSettings.GetAction(ModSettings.ActivationKeyActionName);
                 activationKeyAction.shouldBeEnabled = false;
-                activationKeyAction.onInteraction -= ActivationKeyInteraction;
+
+                // Stop listening for events.
+                StopListeningForEvents();
             }
             catch(Exception ex)
             {
                 Mod.log.Error(ex);
             }
+        }
+
+        /// <summary>
+        /// Stop listening for events.
+        /// </summary>
+        public void StopListeningForEvents()
+        {
+            // Stop listening for language change events.
+            _localizationManager.onActiveDictionaryChanged -= LocalizationManager_onActiveDictionaryChanged;
+
+            // Stop listening for game save events.
+            GameManager.instance.onGameSaveLoad -= GameManager_onGameSaveLoad;
+
+            // Stop listening for key interaction events.
+            ProxyAction activationKeyAction = Mod.ModSettings.GetAction(ModSettings.ActivationKeyActionName);
+            activationKeyAction.onInteraction -= ActivationKeyInteraction;
         }
 
         /// <summary>

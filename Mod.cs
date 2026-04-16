@@ -3,6 +3,7 @@ using Colossal.Logging;
 using Game;
 using Game.Modding;
 using System;
+using Unity.Entities;
 
 namespace PerformanceMonitor
 {
@@ -80,6 +81,9 @@ namespace PerformanceMonitor
         public void OnDispose()
         {
             log.Info($"{nameof(Mod)}.{nameof(OnDispose)}");
+
+            // Stop listening for events to prevent null reference exception when accessing ModSettings.
+            World.DefaultGameObjectInjectionWorld.GetExistingSystemManaged<UISystem>()?.StopListeningForEvents();
 
             // Unregister mod settings.
             ModSettings?.UnregisterInOptionsUI();

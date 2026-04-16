@@ -11,9 +11,9 @@
 		<PublishConfigurationPath>Properties\PublishConfiguration.xml</PublishConfigurationPath>
 		<Title>Performance Monitor</Title>
         <AssemblyTitle>$(Title)</AssemblyTitle>
-		<Version>1.0.8</Version>
+		<Version>1.0.9</Version>
 		<Description>Monitor your computer's performance data.</Description>
-		<Copyright>Copyright © 2024-2025</Copyright>
+		<Copyright>Copyright © 2024-2026</Copyright>
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
         <DefaultItemExcludes>UI\node_modules\**;$(DefaultItemExcludes)</DefaultItemExcludes>
     </PropertyGroup>
