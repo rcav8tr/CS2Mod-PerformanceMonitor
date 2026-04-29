@@ -19,7 +19,7 @@ namespace PerformanceMonitor
             .SetShowsStackTraceAboveLevels(Level.Error);    // Include stack trace for severity level Error and above.
 
         // The one and only global settings for this mod.
-        public static ModSettings ModSettings;
+        public static ModSettings ModSettings { get; private set;}
 
         // Whether or not to show data values.
         public static bool ShowGPUUsage    = false;

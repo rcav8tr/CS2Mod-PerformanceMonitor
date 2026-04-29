@@ -9,7 +9,7 @@ namespace PerformanceMonitor
     /// <summary>
     /// Settings for this mod.
     /// </summary>
-    [FileLocation(nameof(PerformanceMonitor))]
+    [FileLocation("ModsSettings/" + nameof(PerformanceMonitor) + "/" + nameof(PerformanceMonitor))]
     [SettingsUIGroupOrder(GroupGeneral, GroupAbout)]
     [SettingsUIShowGroupName(GroupGeneral, GroupAbout)]
     [SettingsUIKeyboardAction(ActivationKeyActionName, modifierOptions: ModifierOptions.Allow)]
